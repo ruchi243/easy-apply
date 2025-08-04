@@ -1,0 +1,22 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\pagenumbering{gobble}
+
+\begin{document}
+{\LARGE {{ name|escapelatex }} }\\[4pt]
+{{ email|escapelatex }} \quad | \quad {{ phone|escapelatex }}
+
+\section*{Summary}
+{{ summary|escapelatex }}
+
+\section*{Skills}
+{{ skills|escapelatex }}
+
+\section*{Experience}
+{{ experience|escapelatex }}
+
+\section*{Education}
+{{ education|escapelatex }}
+
+\end{document}
