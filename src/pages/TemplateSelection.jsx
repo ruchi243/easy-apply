@@ -1,11 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Navigation from "../components/Navigation";
 
-// Dummy templates for now. Replace thumbnails with real images later.
 const TEMPLATES = [
-  { id: "awesome-cv", name: "Awesome CV", thumb: "https://via.placeholder.com/220x300?text=Awesome+CV" },
-  { id: "deedy",      name: "Deedy",     thumb: "https://via.placeholder.com/220x300?text=Deedy" },
-  { id: "moderncv",   name: "ModernCV",  thumb: "https://via.placeholder.com/220x300?text=ModernCV" },
+  { 
+    id: "classic", 
+    name: "Classic Professional", 
+    description: "Traditional ATS-friendly format with clean sections",
+    features: ["ATS Optimized", "Professional Layout", "Skills Section", "Experience Focus"],
+    bestFor: "Corporate roles, traditional industries"
+  },
+  { 
+    id: "modern", 
+    name: "Modern Academic", 
+    description: "Contemporary design with project highlights",
+    features: ["Project Showcase", "Skills Categories", "Awards Section", "Clean Typography"],
+    bestFor: "Tech roles, startups, creative positions"
+  },
+  { 
+    id: "research", 
+    name: "Research Scholar", 
+    description: "Academic-focused with publications and services",
+    features: ["Academic Services", "Research Projects", "Institution Focus", "Scholarly Format"],
+    bestFor: "Academic positions, research roles, PhD applications"
+  },
+  { 
+    id: "simple", 
+    name: "Simple & Clean", 
+    description: "Minimalist design focusing on content",
+    features: ["Minimal Design", "Content Focus", "Easy to Read", "Quick Setup"],
+    bestFor: "Entry-level positions, career changes"
+  }
 ];
 
 export default function TemplateSelection() {
@@ -18,50 +43,145 @@ export default function TemplateSelection() {
 
   const proceed = () => {
     if (!selected) return;
-    // Next step would be Preview/ATS or PDF generation
-    navigate("/preview"); // You can create this route next; for now, navigate nowhere or stay.
+    navigate("/preview");
   };
 
   return (
-    <div className="min-h-screen bg-white px-6 py-10">
-      <h2 className="text-3xl font-bold text-gray-800 text-center">Choose a LaTeX Template</h2>
-      <p className="text-gray-500 text-center mb-8">You can switch templates later.</p>
-
-      <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {TEMPLATES.map(t => (
-          <button
-            key={t.id}
-            onClick={() => setSelected(t.id)}
-            className={`group border rounded-xl p-3 transition hover:shadow-lg text-left
-              ${selected === t.id ? "ring-2 ring-indigo-500" : "border-gray-200"}`}
-            aria-pressed={selected === t.id}
-          >
-            <img src={t.thumb} alt={`${t.name} preview`} className="w-full rounded-lg mb-3" />
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-gray-800">{t.name}</span>
-              <span className={`text-xs px-2 py-1 rounded 
-                ${selected === t.id ? "bg-indigo-100 text-indigo-700" : "bg-gray-100 text-gray-600"}`}>
-                {selected === t.id ? "Selected" : "Select"}
-              </span>
-            </div>
-          </button>
-        ))}
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
+      {/* Header Section */}
+      <div className="bg-white border-b border-gray-200 py-12">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Step 3: Choose Template
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Select a professional template that matches your industry and career level. You can always switch later.
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-3">
-        <button
-          onClick={() => navigate("/resume-details")}
-          className="px-5 py-2 border rounded-lg text-gray-700 hover:bg-gray-50 transition"
-        >
-          Back
-        </button>
-        <button
-          onClick={proceed}
-          disabled={!selected}
-          className="px-6 py-2 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition disabled:opacity-40"
-        >
-          Continue
-        </button>
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {TEMPLATES.map(template => (
+            <div
+              key={template.id}
+              onClick={() => setSelected(template.id)}
+              className={`group cursor-pointer bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${
+                selected === template.id 
+                  ? "border-green-500 shadow-lg ring-2 ring-green-500 ring-opacity-20" 
+                  : "border-gray-200 hover:border-gray-300 hover:shadow-md"
+              }`}
+            >
+              {/* Template Preview Area */}
+              <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center border-b border-gray-200">
+                <div className="text-center">
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+                    selected === template.id ? "bg-green-500" : "bg-gray-300"
+                  }`}>
+                    <div className={`w-10 h-10 rounded ${selected === template.id ? "bg-white" : "bg-gray-100"} opacity-80`}></div>
+                  </div>
+                  <div className={`text-sm font-medium ${
+                    selected === template.id ? "text-green-600" : "text-gray-500"
+                  }`}>
+                    {selected === template.id ? "Selected Template" : "Preview Available"}
+                  </div>
+                </div>
+                
+                {/* Selection Indicator */}
+                {selected === template.id && (
+                  <div className="absolute top-4 right-4 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                )}
+              </div>
+
+              {/* Template Info */}
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">{template.name}</h3>
+                  <span className={`text-sm px-4 py-2 rounded-full font-medium ${
+                    selected === template.id 
+                      ? "bg-green-100 text-green-600" 
+                      : "bg-gray-100 text-gray-600"
+                  }`}>
+                    {selected === template.id ? "Selected" : "Select"}
+                  </span>
+                </div>
+                
+                <p className="text-gray-600 mb-6 leading-relaxed">{template.description}</p>
+                
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-700 mb-3">Features:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {template.features.map((feature, index) => (
+                      <span key={index} className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-700 mb-2">Best for:</h4>
+                  <p className="text-sm text-gray-600">{template.bestFor}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => navigate("/resume-details")}
+            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Back to Resume Details</span>
+          </button>
+          
+          <button
+            onClick={proceed}
+            disabled={!selected}
+            className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold"
+          >
+            Preview & Generate
+          </button>
+        </div>
+
+        {/* Template Comparison */}
+        {selected && (
+          <div className="mt-12 bg-green-50 rounded-xl border border-green-200 p-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              You selected: {TEMPLATES.find(t => t.id === selected)?.name}
+            </h3>
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              This template is perfect for {TEMPLATES.find(t => t.id === selected)?.bestFor.toLowerCase()}. 
+              Your resume will be optimized with the selected template's strengths while maintaining ATS compatibility.
+            </p>
+            <div className="flex items-center space-x-8 text-sm text-gray-600">
+              <span className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>ATS Compatible</span>
+              </span>
+              <span className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Professional Design</span>
+              </span>
+              <span className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>AI Optimized</span>
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

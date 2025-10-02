@@ -1,22 +1,72 @@
-\documentclass[11pt]{article}
+% Simple structured resume template (Jinja2)
+\documentclass{article}
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\pagenumbering{gobble}
-
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\setlist[itemize]{noitemsep,topsep=0pt,leftmargin=1.2em}
 \begin{document}
-{\LARGE {{ name|escapelatex }} }\\[4pt]
-{{ email|escapelatex }} \quad | \quad {{ phone|escapelatex }}
 
+\begin{center}
+\textbf{\Large {{ name|escapelatex }}}\\
+{% if email %}\href{mailto:{{ email|escapelatex }}}{ {{ email|escapelatex }} }{% endif %}
+{% if phone %} \quad $|$ \quad {{ phone|escapelatex }}{% endif %}
+\end{center}
+
+{% if summary %}
 \section*{Summary}
 {{ summary|escapelatex }}
+{% endif %}
 
+{% if skills and skills|length %}
 \section*{Skills}
-{{ skills|escapelatex }}
+\begin{itemize}
+  {% for s in skills %}\item {{ s|escapelatex }}{% endfor %}
+\end{itemize}
+{% endif %}
 
+{% if experience and experience|length %}
 \section*{Experience}
-{{ experience|escapelatex }}
+{% for exp in experience %}
+\textbf{ {{ exp.role|escapelatex }} } — {{ exp.company|escapelatex }}{% if exp.location %}, {{ exp.location|escapelatex }}{% endif %} \\ 
+{{ exp.start|escapelatex }} -- {{ exp.end|escapelatex }}
+{% if exp.bullets and exp.bullets|length %}
+\begin{itemize}
+  {% for b in exp.bullets %}\item {{ b|escapelatex }}{% endfor %}
+\end{itemize}
+{% endif %}
+\vspace{4pt}
+{% endfor %}
+{% endif %}
 
+{% if projects and projects|length %}
+\section*{Projects}
+{% for p in projects %}
+\textbf{ {{ p.name|escapelatex }} }{% if p.tech and p.tech|length %} — {{ p.tech|join(", ")|escapelatex }}{% endif %}
+{% if p.bullets and p.bullets|length %}
+\begin{itemize}
+  {% for b in p.bullets %}\item {{ b|escapelatex }}{% endfor %}
+\end{itemize}
+{% endif %}
+\vspace{4pt}
+{% endfor %}
+{% endif %}
+
+{% if education and education|length %}
 \section*{Education}
-{{ education|escapelatex }}
+\begin{itemize}
+  {% for edu in education %}
+  \item {{ edu.degree|escapelatex }}, {{ edu.school|escapelatex }}{% if edu.year %} — {{ edu.year|escapelatex }}{% endif %}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+{% if certifications and certifications|length %}
+\section*{Certifications}
+\begin{itemize}
+  {% for c in certifications %}\item {{ c|escapelatex }}{% endfor %}
+\end{itemize}
+{% endif %}
 
 \end{document}

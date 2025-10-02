@@ -1,0 +1,37 @@
+import requests
+import os
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+def clean_resume_with_llm(raw_data: dict, template_id="simple") -> str:
+    prompt = f"""
+You are a resume formatter. The following JSON contains raw user resume info. 
+Your job is to transform this into valid LaTeX sections for a resume using the '{template_id}' format.
+Rules:
+- Do not fabricate or exaggerate.
+- Omit sections that are missing or empty.
+- Escape all special LaTeX characters.
+- Format experience and projects as bullet points where relevant.
+- Output should be usable directly inside a LaTeX resume template.
+
+JSON resume data:
+{raw_data}
+"""
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "mistral",  # or try "mistral-7b-instruct"
+        "messages": [{"role": "user", "content": prompt}]
+    }
+
+    res = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers=headers,
+        json=data
+    )
+    
+    content = res.json()["choices"][0]["message"]["content"]
+    return content

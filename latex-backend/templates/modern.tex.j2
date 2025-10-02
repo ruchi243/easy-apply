@@ -1,0 +1,132 @@
+%-------------------------------------
+% Resume Template 2 (Portable, Jinja2)
+%-------------------------------------
+
+\documentclass[a4paper,10pt]{article}
+
+% Minimal, portable packages
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\setlist[itemize]{noitemsep,topsep=0pt,leftmargin=1.2em}
+\setstretch{1.05}
+
+\begin{document}
+
+%-------------------- HEADING --------------------
+% Right-aligned contact
+{% set have_contact = phone or email or website %}
+{% if have_contact %}
+\begin{flushright}\small
+  {% if phone %}\item {{ phone|escapelatex }}{% endif %}
+  {% if email %}\item \href{mailto:{{ email|escapelatex }}}{ {{ email|escapelatex }} }{% endif %}
+  {% if website %}\item \url{ {{ website }} }{% endif %}
+\end{flushright}\vspace{-28pt}
+{% endif %}
+
+% Name + identity (left)
+\begin{flushleft}
+  {\Large \textsc{ {{ name|escapelatex }} }}%
+  {% if identity %}\quad {\normalsize \textsc{ {{ identity|escapelatex }} }}{% endif %}
+  
+  \noindent\rule{\textwidth}{0.4pt}
+\end{flushleft}
+
+%-------------------- EDUCATION --------------------
+{% if education and education|length %}
+\section*{Education}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for edu in education %}
+  \item
+    \textbf{ {{ edu.school|escapelatex }} }{% if edu.location %}, {{ edu.location|escapelatex }}{% endif %} \hfill
+    {% if edu.duration %}{{ edu.duration|escapelatex }}{% elif edu.dates %}{{ edu.dates|escapelatex }}{% endif %}\\
+    {% if edu.degree %}\emph{ {{ edu.degree|escapelatex }} }{% endif %}
+
+    {% if edu.notes and edu.notes|length %}
+    \begin{itemize}
+      {% for note in edu.notes %}
+      \item {{ note|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- PROJECTS --------------------
+{% if projects and projects|length %}
+\section*{Projects}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for project in projects %}
+  \item
+    {% set proj_title = project.get('title') or project.get('name') %}
+    \textbf{ {{ proj_title|escapelatex }} }
+    {% if project.sponsor %}— {{ project.sponsor|escapelatex }}{% endif %}
+    \hfill
+    {% if project.dates %}{{ project.dates|escapelatex }}{% endif %}
+
+    {% if project.stack %}{% if project.dates %}\\ {% endif %}\emph{ {{ project.stack|escapelatex }} }{% endif %}
+
+    {% if project.details and project.details|length %}
+    \begin{itemize}
+      {% for detail in project.details %}
+      \item {{ detail|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- INTERNSHIPS --------------------
+{% if internships and internships|length %}
+\section*{Internships}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for intern in internships %}
+  \item
+    \textbf{ {{ intern.company|escapelatex }} }{% if intern.location %}, {{ intern.location|escapelatex }}{% endif %}
+    \hfill
+    {% if intern.duration %}{{ intern.duration|escapelatex }}{% endif %}
+
+    {% if intern.tasks and intern.tasks|length %}
+    \begin{itemize}
+      {% for task in intern.tasks %}
+      \item {{ task|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- AWARDS & HONORS --------------------
+{% if awards and awards|length %}
+\section*{Awards \& Honors}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for award in awards %}
+  \item \emph{ {{ award.title|escapelatex }} }
+  {% if award.source %}, {{ award.source|escapelatex }}{% endif %}
+  {% if award.date %} \hfill {{ award.date|escapelatex }}{% endif %}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- SKILLS --------------------
+{% if skills and skills|length %}
+\section*{Skills}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for skill in skills %}
+  \item \emph{ {{ skill['category']|escapelatex }} }: {{ skill['items']|escapelatex }}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+\end{document}

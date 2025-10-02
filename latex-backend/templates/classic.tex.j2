@@ -1,0 +1,146 @@
+%-------------------------
+% Resume Template 1 (Jinja2 Fixed)
+%-------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\urlstyle{same}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{\vspace{-4pt}\scshape\raggedright\large}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Custom Commands
+{% raw %}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small #3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+{% endraw %}
+
+\begin{document}
+
+% -------- Heading --------
+\begin{center}
+    \textbf{\Huge \scshape {{ name|escapelatex }}}\\
+    \small
+    {% if phone %}{{ phone|escapelatex }}{% endif %}
+    {% if phone and email %} $|$ {% endif %}
+    {% if email %}\href{mailto:{{ email|escapelatex }}}{\underline{ {{ email|escapelatex }} }}{% endif %}
+    {% if linkedin %} $|$ \url{ {{ linkedin|escapelatex }} }{% endif %}
+    {% if github %} $|$ \url{ {{ github|escapelatex }} }{% endif %}
+\end{center}
+
+% -------- Education --------
+{% if education and education|length %}
+\section{Education}
+\resumeSubHeadingListStart
+  {% for edu in education %}
+    \resumeSubheading
+      { {{ edu.school|escapelatex }} }{ {{ edu.location|escapelatex }} }
+      { {{ edu.degree|escapelatex }} }{ {{ edu.dates|escapelatex }} }
+  {% endfor %}
+\resumeSubHeadingListEnd
+{% endif %}
+
+% -------- Experience --------
+{% if experience and experience|length %}
+\section{Experience}
+\resumeSubHeadingListStart
+  {% for exp in experience %}
+    \resumeSubheading
+      { {{ exp.title|escapelatex }} }{ {{ exp.dates|escapelatex }} }
+      { {{ exp.company|escapelatex }} }{ {{ exp.location|escapelatex }} }
+      {% if exp.details and exp.details|length %}
+      \resumeItemListStart
+        {% for detail in exp.details %}
+        \resumeItem{ {{ detail|escapelatex }} }
+        {% endfor %}
+      \resumeItemListEnd
+      {% endif %}
+  {% endfor %}
+\resumeSubHeadingListEnd
+{% endif %}
+
+% -------- Projects --------
+{% if projects and projects|length %}
+\section{Projects}
+\resumeSubHeadingListStart
+  {% for project in projects %}
+    \resumeSubheading
+      { {{ project.name|escapelatex }} }{ {{ project.dates|escapelatex }} }
+      { {{ project.stack|escapelatex }} }{}
+      {% if project.details and project.details|length %}
+      \resumeItemListStart
+        {% for detail in project.details %}
+        \resumeItem{ {{ detail|escapelatex }} }
+        {% endfor %}
+      \resumeItemListEnd
+      {% endif %}
+  {% endfor %}
+\resumeSubHeadingListEnd
+{% endif %}
+
+% -------- Skills --------
+{% if skills %}
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\small \item {
+  {% if skills.languages %}\textbf{Languages}{: {{ skills.languages|escapelatex }} }\\{% endif %}
+  {% if skills.frameworks %}\textbf{Frameworks}{: {{ skills.frameworks|escapelatex }} }\\{% endif %}
+  {% if skills.tools %}\textbf{Developer Tools}{: {{ skills.tools|escapelatex }} }\\{% endif %}
+  {% if skills.libraries %}\textbf{Libraries}{: {{ skills.libraries|escapelatex }} }{% endif %}
+}
+\end{itemize}
+{% endif %}
+
+% -------- Certifications --------
+{% if certifications and certifications|length %}
+\section{Certifications}
+\resumeSubHeadingListStart
+  {% for cert in certifications %}
+    \resumeSubheading
+      { {{ cert.name|escapelatex }} }{ {{ cert.dates|escapelatex }} }
+      { {{ cert.issuer|escapelatex }} }{}
+  {% endfor %}
+\resumeSubHeadingListEnd
+{% endif %}
+
+\end{document}

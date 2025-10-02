@@ -1,0 +1,138 @@
+%-------------------------------------
+% Resume Template 3 (Portable, Jinja2)
+%-------------------------------------
+
+\documentclass[a4paper,10pt]{article}
+
+% Portable packages (no custom .sty needed)
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\setlist[itemize]{noitemsep,topsep=0pt,leftmargin=1.2em}
+\setstretch{1.05}
+
+\begin{document}
+
+%-------------------- HEADING --------------------
+% Right-aligned contact
+{% set have_contact = phone or email or website %}
+{% if have_contact %}
+\begin{flushright}\small
+  {% if phone %}\item {{ phone|escapelatex }}{% endif %}
+  {% if email %}\item \href{mailto:{{ email|escapelatex }}}{ {{ email|escapelatex }} }{% endif %}
+  {% if website %}\item \url{ {{ website }} }{% endif %}
+\end{flushright}\vspace{-28pt}
+{% endif %}
+
+% Name + degree (left)
+\begin{flushleft}
+  {\Large \textsc{ {{ name|escapelatex }} }}%
+  {% if degree %}\quad {\normalsize \textsc{ {{ degree|escapelatex }} }}{% endif %}
+  \par\noindent\rule{\textwidth}{0.4pt}
+\end{flushleft}
+
+%-------------------- EDUCATION --------------------
+{% if education and education|length %}
+\section*{Education}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for edu in education %}
+  \item
+    \textbf{ {{ edu.institution|escapelatex }} }{% if edu.location %}, {{ edu.location|escapelatex }}{% endif %} \hfill
+    {% if edu.duration %}{{ edu.duration|escapelatex }}{% elif edu.dates %}{{ edu.dates|escapelatex }}{% endif %}\\
+    {% if edu.degree %}\emph{ {{ edu.degree|escapelatex }} }{% endif %}
+
+    {% if edu.notes and edu.notes|length %}
+    \begin{itemize}
+      {% for note in edu.notes %}
+      \item {{ note|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- PROJECTS --------------------
+{% if projects and projects|length %}
+\section*{Projects}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for proj in projects %}
+  \item
+    \textbf{ {{ proj.title|escapelatex }} }
+    {% if proj.sponsor %}— {{ proj.sponsor|escapelatex }}{% endif %}
+    \hfill
+    {% if proj.period %}{{ proj.period|escapelatex }}{% elif proj.dates %}{{ proj.dates|escapelatex }}{% endif %}
+
+    {% if proj.details and proj.details|length %}
+    \begin{itemize}
+      {% for detail in proj.details %}
+      \item {{ detail|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- INTERNSHIPS --------------------
+{% if internships and internships|length %}
+\section*{Internships}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for intern in internships %}
+  \item
+    \textbf{ {{ intern.company|escapelatex }} }{% if intern.location %}, {{ intern.location|escapelatex }}{% endif %}
+    \hfill
+    {% if intern.duration %}{{ intern.duration|escapelatex }}{% endif %}
+
+    {% if intern.points and intern.points|length %}
+    \begin{itemize}
+      {% for point in intern.points %}
+      \item {{ point|escapelatex }}
+      {% endfor %}
+    \end{itemize}
+    {% endif %}
+    \vspace{4pt}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- AWARDS --------------------
+{% if awards and awards|length %}
+\section*{Awards \& Honors}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for award in awards %}
+  \item \emph{ {{ award.title|escapelatex }} }
+  {% if award.detail %} {{ award.detail|escapelatex }}{% endif %}
+  {% if award.date %} \hfill {{ award.date|escapelatex }}{% endif %}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- SKILLS --------------------
+{% if skills and skills|length %}
+\section*{Skills}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for skill in skills %}
+  \item \emph{ {{ skill.name|escapelatex }} }: {{ skill.tools|escapelatex }}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+%-------------------- ACADEMIC SERVICES --------------------
+{% if services and services|length %}
+\section*{Academic Services}
+\begin{itemize}[leftmargin=0pt,label={}]
+  {% for service in services %}
+  \item \emph{ {{ service.label|escapelatex }} }: {{ service.detail|escapelatex }}
+  {% endfor %}
+\end{itemize}
+{% endif %}
+
+\end{document}

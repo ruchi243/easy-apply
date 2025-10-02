@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Global styles */
 body {
@@ -19,4 +17,17 @@ a:hover {
   color: #4338ca;
 }
 
-/* No @apply — style buttons directly in JSX */
+/* Ensure proper styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Override any dark theme styles */
+.dark {
+  color-scheme: light;
+}
+
+/* Force light theme */
+html {
+  color-scheme: light;
+}
