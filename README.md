@@ -3,7 +3,7 @@
 Paste a job description. Get a tailored resume in seconds.
 
 Most people spend 30 to 45 minutes manually tweaking their resume for every 
-application. Smart Resume Builder does it in one click — AI reads the job 
+application. Smart Resume Builder does it in one click , AI reads the job 
 description, matches your experience to what actually matters, and generates 
 a clean LaTeX-formatted PDF ready to send.
 
@@ -17,10 +17,10 @@ a clean LaTeX-formatted PDF ready to send.
 
 ## tech stack
 
-- **Frontend** — React, Tailwind CSS
-- **Backend** — FastAPI, Python
-- **Document generation** — LaTeX
-- **AI layer** — keyword extraction and section prioritization
+- **Frontend** : React, Tailwind CSS
+- **Backend** : FastAPI, Python
+- **Document generation** : LaTeX
+- **AI layer** : keyword extraction and section prioritization
 
 ## try it live
 
