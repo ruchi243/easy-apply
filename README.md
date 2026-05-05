@@ -14,6 +14,9 @@ a clean LaTeX-formatted PDF ready to send.
 - Restructures and tailors your resume content to match
 - Outputs a professionally formatted LaTeX PDF
 - Cuts manual editing time by approximately 50%
+## architecture 
+
+<img width="1440" height="1124" alt="image" src="https://github.com/user-attachments/assets/dd5f23cc-9f5d-4902-ab0d-20d243512c29" />
 
 ## tech stack
 
