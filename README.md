@@ -48,7 +48,7 @@ npm run dev
 
 ## demo
 
-Video demo coming soon.
+https://drive.google.com/file/d/1tkEer82rZJfVDwSDXAN-1LDeQgVcgQoe/preview
 
 ---
 
